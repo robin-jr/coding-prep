@@ -14,6 +14,7 @@
         "streambuf": "cpp",
         "type_traits": "cpp",
         "utility": "cpp",
-        "any": "cpp"
+        "any": "cpp",
+        "array": "cpp"
     }
 }
