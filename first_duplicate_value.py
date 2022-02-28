@@ -1,14 +1,14 @@
 def firstDuplicateValue(array):
-    counts={}
-    for e in array:
-        c = counts.get(e,0)
-        if c==0:
-            counts[e]=1
+    for i in range(len(array)):
+        e = array[i]
+        if array[abs(e)-1]<0:
+            return abs(e)
         else:
-            return e
+            array[abs(e)-1]*=-1
     return -1
 
-array=[2, 1, 5,  3, 3,2, 4]
+array=[2, 1, 5,3, 3,2, 4]
+        
 x=firstDuplicateValue(array)
 print(x)
 
