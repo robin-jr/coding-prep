@@ -52,6 +52,17 @@ class Store:
             print("{} - {}".format(requested_product.name,
                   requested_product.quantity))
 
+    def make_sale(self, product_ids: List[int], quantity_purchased: List[int]):
+        if not self.__check_availability(product_ids, quantity_purchased):
+            return None
+        self.__reduce_stock(product_ids, quantity_purchased)
+
+        bill_entries = self.__generate_bill(product_ids, quantity_purchased)
+        for bill_entry in bill_entries:
+            bill_entry = self.__apply_offer(bill_entry)
+        self.__display_bill(bill_entries)
+        
+    # Utility Methods start --------------------------------
     def __check_availability(self, product_ids: List[int], quantity_purchased: List[int]):
         for product_id, quantity in zip(product_ids, quantity_purchased):
             if product_id not in self.inventory:
@@ -68,15 +79,6 @@ class Store:
         for product_id, quantity in zip(product_ids, quantity_purchased):
             self.inventory[product_id].quantity -= quantity
 
-    def make_sale(self, product_ids: List[int], quantity_purchased: List[int]):
-        if not self.__check_availability(product_ids, quantity_purchased):
-            return None
-        self.__reduce_stock(product_ids, quantity_purchased)
-
-        bill_entries = self.__generate_bill(product_ids, quantity_purchased)
-        for bill_entry in bill_entries:
-            bill_entry = self.__apply_offer(bill_entry)
-        self.__display_bill(bill_entries)
 
     def __calculate_price_with_discount(self, price, discount_percent):
         return round(price - (price * discount_percent / 100), 2)
@@ -86,9 +88,9 @@ class Store:
         if not offers:
             return None
         best_offer = None
-        current_best_price = bill_entry.product_price
+        current_best_price = bill_entry.product_price * bill_entry.quantity_purchased
         for offer in offers:
-            if offer.min_quantity <= bill_entry.quantity_purchased and self.__calculate_price_with_discount(bill_entry.product_price*bill_entry.quantity_purchased, offer.discount_percent) > current_best_price:
+            if offer.min_quantity <= bill_entry.quantity_purchased and self.__calculate_price_with_discount(bill_entry.product_price*bill_entry.quantity_purchased, offer.discount_percent) < current_best_price:
                 current_best_price = offer.discount_percent
                 best_offer = offer
         return best_offer
@@ -96,7 +98,7 @@ class Store:
     def __apply_offer(self, bill_entry: BillEntry):
         offer = self.__get_best_offer(bill_entry)
 
-        if not offer or offer.min_quantity > bill_entry.quantity_purchased:
+        if not offer:
             bill_entry.net_price = bill_entry.quantity_purchased * bill_entry.product_price
             bill_entry.offer_id = "N/A"
         else:
@@ -124,6 +126,8 @@ class Store:
         print("== Total ==")
         print(total)
         print("============")
+    
+    # Utility methods end ----------------------------------
 
     def start_the_day(self):
         print("\nGood morning, {}".format(self.owner_name))
@@ -180,4 +184,3 @@ class Store:
 if __name__ == "__main__":
     market = Store("Rajesh", "AJ SuperMarket")
     market.start_the_day()
-    # market.get_stock(1)
