@@ -1,3 +1,5 @@
+package medium;
+
 import java.util.*;
 
 // Do not edit the class below except for the buildHeap,

@@ -14,7 +14,15 @@ class Solution:
                 count+=pairs[e]
             pairs[needed_pair] = pairs.get(needed_pair,0)+1
         return count
-            
+    
+    def nishanthCode():
+        rem = [0]*60
+        res=0
+        for i in time:
+            idx = i%60
+            res +=rem[-idx]
+            rem[idx]+=1
+        return res           
         
 
 s = Solution()
