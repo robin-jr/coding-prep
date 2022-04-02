@@ -6,9 +6,8 @@ class Solution:
         while s[0]==s[-1] and n>2:
             s=s[1:n-1]
             n-=2
-        if s[0]==s[-1]: return self.validPalindrome(s[1:n-1])
-        if self.validPalindrome(s[1:n], deletion_count+1) or self.validPalindrome(s[0:n-1], deletion_count+1): return True
-        return False
+        if s[0]==s[-1]: return True
+        return self.validPalindrome(s[1:n], deletion_count+1) or self.validPalindrome(s[0:n-1], deletion_count+1)
     
 s = "cupuupucua"
 print(Solution().validPalindrome(s))
