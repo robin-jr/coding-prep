@@ -12,6 +12,7 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "vector": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "*.tcc": "cpp"
     }
 }
