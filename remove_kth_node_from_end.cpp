@@ -2,36 +2,38 @@
 
 using namespace std;
 
-class LinkedList {
+class LinkedList
+{
 public:
-  int value;
-  LinkedList *next;
+    int value;
+    LinkedList *next;
 
-  LinkedList(int value);
-  void addMany(vector<int> values);
-  vector<int> getNodesInArray();
+    LinkedList(int value);
+    void addMany(vector<int> values);
+    vector<int> getNodesInArray();
 };
 
-void removeKthNodeFromEnd(LinkedList *head, int k) {
-    LinkedList *t = head;
-    int len=0;
-    while (t!=nullptr) 
+void removeKthNodeFromEnd(LinkedList *head, int k)
+{
+    LinkedList *first = head;
+    LinkedList *second = head;
+
+    while (k--)
+        second = second->next;
+
+    if (second == nullptr)
     {
-        t = t->next;
-        len++;
-    }
-    t = head;
-    int distance = len - k;
-    LinkedList *prev = nullptr;
-    while (distance--)
-    {
-       prev = t; 
-       t = t->next;
-    }
-    if (prev!=nullptr)
-        prev->next = t->next;
-    if (len==k && head->next!=nullptr){
         head->value = head->next->value;
-        head->next=head->next->next;
+        head->next = head->next->next;
+        return;
     }
+
+    LinkedList *prev = nullptr;
+    while (second != nullptr)
+    {
+        prev = first;
+        first = first->next;
+        second = second->next;
+    }
+    prev->next = first->next;
 }
