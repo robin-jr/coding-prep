@@ -21,16 +21,13 @@ class Solution:
         if bricks >= heightDiff and ladders >0 :
             return max(self.helper(heights, bricks-heightDiff, ladders, i+1), self.helper(heights, bricks, ladders-1,i+1)) # we have both
         
-        print("WTF",i,len(heights),bricks, ladders, heightDiff)
-        return -2
         
     def furthestBuilding(self, heights: List[int], bricks: int, ladders: int, i: int=0) -> int:
         # heights = tuple(heights)
-        # return self.furthestBuilding(heights, bricks, ladders, i)
-        from heapq import heapify, heappush, heappop
+        # return self.helper(heights, bricks, ladders, i)
+        from heapq import heappush, heappop
 
         minheap = []
-        heapify(minheap)
 
         for i in range(len(heights)-1):
             diff = heights[i+1] - heights[i]
