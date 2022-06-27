@@ -1,3 +1,6 @@
+import heapq
+
+
 def merge(arrays):
     l = arrays[0]
     r = arrays[1]
@@ -28,12 +31,28 @@ def mergeSortedArrays(arrays):
     
     return mergeSortedArrays(r)
 
+def mergeSortedArrays2(arrays):
+    h = []
+    
+    for i in range(len(arrays)):
+        h.append((arrays[i][0],i, 0))
+    heapq.heapify(h)
+    
+    s = []
+    while h:
+        e, ki, i = heapq.heappop(h)
+        s.append(e) 
+        if i == len(arrays[ki])-1: continue
+        heapq.heappush(h, (arrays[ki][i+1], ki, i+1))
+        
+    return s
+
 arrays = [
   [1, 5, 9, 21],
   [-1, 0],
   [-124, 81, 121],
   [3, 6, 12, 20, 150]
 ]
-x = mergeSortedArrays(arrays)
+x = mergeSortedArrays2(arrays)
             
 print(x)
