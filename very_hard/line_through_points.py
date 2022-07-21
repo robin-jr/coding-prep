@@ -15,9 +15,9 @@ def lineThroughPoints(points):
             if i==j:
                 continue
             currentSlope=calculateSlope(points[i],points[j])
-            dict[currentSlope]=dict.get(currentSlope,0)+1
+            dict[currentSlope]=dict.get(currentSlope,1)+1 # no. of points this line passes through
         c= max(dict.values())
-        maxCount = max(c+1,maxCount)
+        maxCount = max(c,maxCount)
     return maxCount
 
 
