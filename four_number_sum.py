@@ -7,7 +7,7 @@ class E():
     def __str__(self) -> str:
         return f"{self.i} {self.j} {self.sum}"
         
-def fourNumberSum(array, targetSum):
+def fourNumberSum1(array, targetSum):
     st = []
     n = len(array)
     for i in range(n-1):
@@ -27,6 +27,27 @@ def fourNumberSum(array, targetSum):
         t.append(list(e))
     
     return t
+
+
+def fourNumberSum(array, targetSum):
+    d = {}
+    n = len(array)
+    
+    res = []
+    for i in range(n-1):
+        for j in range(i+1,n):
+            curr_sum = array[i]+array[j]
+            diff = targetSum-curr_sum
+            if d.__contains__(diff):
+                for e in d[diff]:
+                    res.append(e+[array[i],array[j]])
+        for j in range(0,i):
+            curr_sum = array[i]+array[j]
+            if d.__contains__(curr_sum):
+                d[curr_sum].append([array[i],array[j]])
+            else:
+                d[curr_sum] =[[array[i],array[j]]]
+    return res
 
 array = [7, 6, 4, -1, 1, 2]
 targetSum = 16
