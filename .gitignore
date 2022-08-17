@@ -3,3 +3,8 @@
 *.exe
 __pycache__
 .DS_Store
+.idea
+.vscode
+*.iml
+venv
+cmake-build-debug/
