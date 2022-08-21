@@ -35,8 +35,6 @@ def zigzagTraverse(array):
             res.append(array[i][j])
     return res
 
-
-
 array= [
     [1, 3],
     [2, 4],
