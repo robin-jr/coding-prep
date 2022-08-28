@@ -11,6 +11,8 @@ def palindromic_partitions(s: str, all, current, start: int):
             current.append(t)
             palindromic_partitions(s, all, current, i+1)
             current.pop()
+            # or could've done
+            # palindromic_partitions(s, all, current.copy().append(t), i+1)
             
 def palindromic_partitions1(arr: list[str]):
     res = set()
