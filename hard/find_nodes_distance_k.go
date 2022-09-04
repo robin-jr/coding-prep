@@ -53,3 +53,61 @@ func addNodesAtDistanceK(tree *BinaryTree, curr_distance int, k int, res *[]int)
 	addNodesAtDistanceK(tree.Left, curr_distance+1, k, res)
 	addNodesAtDistanceK(tree.Right, curr_distance+1, k, res)
 }
+
+func findParents(tree *BinaryTree, parent *BinaryTree, parents *map[int]*BinaryTree) {
+	if tree == nil {
+		return
+	}
+	(*parents)[tree.Value] = parent
+	findParents(tree.Left, tree, parents)
+	findParents(tree.Right, tree, parents)
+}
+
+func getTargetNode(target int, parents map[int]*BinaryTree) *BinaryTree {
+	parent := parents[target]
+	if parent == nil {
+		return nil
+	}
+	if parent.Left != nil && parent.Left.Value == target {
+		return parent.Left
+	}
+	return parent.Right
+}
+
+func FindNodesDistanceK1(tree *BinaryTree, target int, k int) []int {
+	parents := map[int]*BinaryTree{}
+	findParents(tree, nil, &parents)
+	targetNode := getTargetNode(target, parents)
+	if targetNode == nil {
+		targetNode = tree
+	}
+	visited := map[int]bool{}
+
+	q := []*BinaryTree{targetNode}
+	curr_distance := 0
+	for len(q) > 0 {
+		if curr_distance == k {
+			res := []int{}
+			for _, e := range q {
+				res = append(res, e.Value)
+			}
+			return res
+		}
+		temp := []*BinaryTree{}
+		for _, e := range q {
+			visited[e.Value] = true
+			if e.Left != nil && !visited[e.Left.Value] {
+				temp = append(temp, e.Left)
+			}
+			if e.Right != nil && !visited[e.Right.Value] {
+				temp = append(temp, e.Right)
+			}
+			if parents[e.Value] != nil && !visited[parents[e.Value].Value] {
+				temp = append(temp, parents[e.Value])
+			}
+		}
+		q = temp
+		curr_distance += 1
+	}
+	return []int{}
+}
