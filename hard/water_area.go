@@ -4,10 +4,13 @@ import "fmt"
 
 func WaterArea(heights []int) int {
 	sum := 0
+	if len(heights) == 0 {
+		return 0
+	}
+	lms := getLeftMaxHeights(heights)
+	rms := getRightMaxHeights(heights)
 	for i, ch := range heights {
-		leftMax := max(heights[:i]...)
-		rightMax := max(heights[i+1:]...)
-		t := min(leftMax, rightMax) - ch
+		t := min(lms[i], rms[i]) - ch
 		if t > 0 {
 			sum += t
 		}
@@ -22,14 +25,27 @@ func min(a, b int) int {
 	return b
 }
 
-func max(args ...int) int {
-	max := -1
-	for _, e := range args {
-		if max < e {
-			max = e
+func getLeftMaxHeights(heights []int) []int {
+	leftMaxHeights := make([]int, len(heights))
+	max := heights[0]
+	for i := 1; i < len(heights); i++ {
+		leftMaxHeights[i] = max
+		if heights[i] > max {
+			max = heights[i]
 		}
 	}
-	return max
+	return leftMaxHeights
+}
+func getRightMaxHeights(heights []int) []int {
+	rightMaxHeights := make([]int, len(heights))
+	max := heights[len(heights)-1]
+	for i := len(heights) - 2; i >= 0; i-- {
+		rightMaxHeights[i] = max
+		if heights[i] > max {
+			max = heights[i]
+		}
+	}
+	return rightMaxHeights
 }
 
 func main() {
